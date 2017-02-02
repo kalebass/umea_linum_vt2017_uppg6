@@ -1,23 +1,30 @@
 CC=gcc
 CFLAGS=-I.
+LIBFLAG = -L. -Wl,-rpath,. -lresistance
 DEPS=
 OBJS=main.o
+SOBJS=libresistance.so
 DESTDIR=/usr/local
 EXEC_FILE=electrotest
 
 all: $(EXEC_FILE)
 
-main.o: main.c
+main.o: main.c lib
 
 $(EXEC_FILE): $(OBJS)
-	$(CC) $^ -o $@ $(CFLAGS)
+	$(CC) $^ -o $@ $(CFLAGS) $(LIBFLAG)
 
 $(OBJS):
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+lib: $(SOBJS)
+
+%.so: %.c
+	$(CC) $< $(CFLAGS) -shared -fPIC -o $@
+
 .PHONY: clean
 clean:
-	rm -f $(EXEC_FILE) *.o
+	rm -f $(EXEC_FILE) *.o *.so
 
 install: $(EXEC_FILE)
 	install -m 0755 $(EXEC_FILE) $(DESTDIR)/bin
