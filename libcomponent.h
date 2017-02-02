@@ -1,11 +1,11 @@
 /**
- * @file library3.h
+ * @file libcomponent.h
  * @author Marcus Valtonen Örnhag
  * @brief Function for counting resistance.
  */
 
-#ifndef _LIBRARY3_H_
-#define _LIBRARY3_H_
+#ifndef COMPONENT_H_
+#define COMPONENT_H_
 
 /* The total number of resistors available in the E12 set. */
 #define NBR_E12 61

@@ -1,10 +1,10 @@
 /**
- * @file library3.c
+ * @file libcomponent.c
  * @author Marcus Valtonen Örnhag
  * @brief Function for counting resistance.
  */
 
-#include "library3.h"
+#include "libcomponent.h"
 
 /* All values available in E12 series (range from 10 Ohm to 1 MOhm) */
 float e12_resistors[NBR_E12] =

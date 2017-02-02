@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-I.
-LIBFLAG = -L. -Wl,-rpath,. -lresistance
+LIBFLAG = -L. -Wl,-rpath,. -lresistance -lcomponent
 DEPS=
 OBJS=main.o
-SOBJS=libresistance.so
+SOBJS=libresistance.so libcomponent.so
 DESTDIR=/usr/local
 EXEC_FILE=electrotest
 
