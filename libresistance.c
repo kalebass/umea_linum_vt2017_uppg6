@@ -3,16 +3,14 @@
 float calc_resistance(int count, char conn, const float *array)
 {
 	if (!array) {
-		static const float nan = 0.0 / 0.0;
-		return nan;
+		return -1.0f;
 	}
 	// Parallel resistances
 	if (conn == 'p' || conn == 'P') {
 		double sum_inverses = 0.0;
 		for (int i = 0; i < count; ++i) {
-			if (array[i] == 0.0f) {
-				return 0.0f;
-			}
+			if (array[i] == 0.0) return 0.0f;
+			if (array[i] < 0.0) return -1.0f;
 			sum_inverses += 1.0 / array[i];
 		}
 		return 1.0 / sum_inverses;
@@ -20,9 +18,11 @@ float calc_resistance(int count, char conn, const float *array)
 	} else if (conn == 's' || conn == 'S') {
 		double sum = 0.0;
 		for (int i = 0; i < count; ++i) {
+			if (array[i] < 0.0) return -1.0f;
 			sum += array[i];
 		}
 		return sum;
 	}
+	return -1.0f;
 }
 
