@@ -22,10 +22,9 @@ float e12_resistors[NBR_E12] =
  * @return 0 if resistance found, -1 otherwise
  */
 static int find_closest_e12(float resistance, float *closest) {
-    int i;
     int ret = -1;
 
-    for (i = NBR_E12-1; i >= 0; i--) {
+    for (int i = NBR_E12-1; i >= 0; i--) {
         if (e12_resistors[i] <= resistance) {
             *closest = e12_resistors[i];
             ret = 0;
@@ -69,8 +68,7 @@ int e_resistance(float orig_resistance, float *res_array ) {
      * Check if we did not need all resistors, then fill up the remaining
      * with zeros.
      */
-    int i;
-    for (i = used_resistors; i < 3; i++) {
+    for (int i = used_resistors; i < 3; i++) {
         res_array[i] = 0;
     }
 
