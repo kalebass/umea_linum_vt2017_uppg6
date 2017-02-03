@@ -7,6 +7,7 @@
 
 #include "libresistance.h"
 #include "libcomponent.h"
+#include "libpower.h"
 
 static void test_case_e12(float res) {
     float *arr = malloc(sizeof(float) * 3);
@@ -36,7 +37,10 @@ int main(void) {
 
     float resistances[] = { 300., 500., 598. };
     float equiv = calc_resistance(nbr_components, conn, resistances);
-    printf("Ersättningsresistans: %3.1f ohm\n", equiv);
+    printf("Ersättniingsresistans: %3.1f ohm\n", equiv);
+    float power_r = calc_power_r(50.f, equiv);
+    float current = 50.f / equiv;	
+    float power_i = calc_power_i(50.f, current);		
     printf("Effekt: %3.2f W\n", 1.78);
 
     float *e_res = malloc(sizeof(float) * 3);

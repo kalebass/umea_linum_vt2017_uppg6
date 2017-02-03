@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-I.
+CFLAGS=-I. -std=c99
 LIBFLAG = -L. -Wl,-rpath,. -lresistance -lcomponent -lpower
 DEPS=
 OBJS=main.o
