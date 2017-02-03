@@ -9,6 +9,9 @@
 #include "libcomponent.h"
 #include "libpower.h"
 
+/*
+ * Extra test cases for E12 resistances.
+ */
 static void test_case_e12(float res) {
     float *arr = malloc(sizeof(float) * 3);
     printf("Target resistance: %3.1f\n", res);
@@ -21,39 +24,76 @@ static void test_case_e12(float res) {
     free(arr);
 }
 
+/*
+ * Read integer from stdin. Not fool-proof since e.g.
+ * 123abc would be accepted as 123.
+ */
+static int read_positive_int(void) {
+    int res = 0;
+    int output = -1;
+
+    while (res <= 0 || output <= 0) {
+        res = scanf("%d", &output);
+        if (res == 0 || output <= 0) {
+            while (fgetc(stdin) != '\n') ;
+            printf("Ange ett positivt heltal: ");
+        }
+    }
+    return output;
+}
+
+/*
+ * Read charcters from stdin. Accept S or P only.
+ */
+static int read_char(void) {
+    char choice;
+
+    do {
+        printf("Ange koppling[S | P]: ");
+        scanf(" %c", &choice);
+        fflush(stdin);
+    } while (choice != 'S' && choice != 'P');
+    return choice;
+}
+
 int main(void) {
-    printf("Ange spänningskälla i V: %d\n", 50);
 
-    char conn = 'S';
-    printf("Ange koppling[S | P]: %c\n", conn);
+    printf("Ange spänningskälla i V: ");
+    float voltage = (float)read_positive_int();
 
-    int nbr_components = 3;
-    printf("Antal komponenter: %d\n", nbr_components);
+    char conn = read_char();
 
-    int i;
-    for (i = 0; i < nbr_components; i++) {
-        printf("Komponent %d ohm: %d\n", i, i);
+    printf("Antal komponenter: ");
+    int nbr_components = read_positive_int();
+
+    float *resistors = malloc(sizeof(float) * nbr_components);
+
+    for (int i = 0; i < nbr_components; i++) {
+        printf("Komponent %d ohm: ", i+1);
+        resistors[i] = (float)read_positive_int();
     }
 
-    float resistances[] = { 300., 500., 598. };
-    float equiv = calc_resistance(nbr_components, conn, resistances);
-    printf("Ersättniingsresistans: %3.1f ohm\n", equiv);
-    float power_r = calc_power_r(50.f, equiv);
-    float current = 50.f / equiv;	
-    float power_i = calc_power_i(50.f, current);		
-    printf("Effekt: %3.2f W\n", 1.78);
+    float equiv = calc_resistance(nbr_components, conn, resistors);
+    printf("Ersättniingsresistans: %g ohm\n", equiv);
+
+    float power_r = calc_power_r(voltage, equiv);
+    // float current = voltage / equiv;
+    // float power_i = calc_power_i(voltage, current);
+    printf("Effekt: %3.2f W\n", power_r);
 
     float *e_res = malloc(sizeof(float) * 3);
     int count = e_resistance(equiv, e_res);
     printf("Ersättningsresistanser i E12-serien kopplade i serie: ");
-    for (i = 0; i < count; i++) {
-        printf("%3.1f, ", e_res[i]);
+    printf("%g", e_res[0]);
+    for (int i = 1; i < count; i++) {
+        printf(", %g", e_res[i]);
     }
-    printf("\n\n");
+    printf("\n");
     free(e_res);
 
     /* Some test cases for E12 replacements */
     /*
+    printf("\n");
     test_case_e12(1398.0f);
     test_case_e12(15.0f);
     test_case_e12(11234.0f);
