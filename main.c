@@ -32,21 +32,17 @@ int main(void) {
     }
 
     float equiv = calc_resistance(nbr_components, conn, resistors);
-    printf("Ersättniingsresistans: %g ohm\n", equiv);
+    printf("Ersättningsresistans:\n%.1f ohm\n", equiv);
 
     float power_r = calc_power_r(voltage, equiv);
-    // float current = voltage / equiv;
-    // float power_i = calc_power_i(voltage, current);
-    printf("Effekt: %3.2f W\n", power_r);
+    printf("Effekt:\n%3.2f W\n", power_r);
 
     float *e_res = malloc(sizeof(float) * 3);
     int count = e_resistance(equiv, e_res);
-    printf("Ersättningsresistanser i E12-serien kopplade i serie: ");
-    printf("%g", e_res[0]);
-    for (int i = 1; i < count; i++) {
-        printf(", %g", e_res[i]);
+    printf("Ersättningsresistanser i E12-serien kopplade i serie:\n");
+    for (int i = 0; i < count; i++) {
+        printf("%g\n", e_res[i]);
     }
-    printf("\n");
     free(e_res);
 
     /* Some test cases for E12 replacements */
