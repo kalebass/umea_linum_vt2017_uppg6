@@ -6,12 +6,14 @@
  */
 #include "libresistance.h"
 
+static const float errorval = -1.0f;
+
 static float parallel(int count, const float *array)
 {
 	double sum_inverses = 0.0;
 	for (int i = 0; i < count; ++i) {
 		if (array[i] == 0.0) return 0.0f;
-		if (array[i] < 0.0) return -1.0f;
+		if (array[i] < 0.0) return errorval;
 		sum_inverses += 1.0 / array[i];
 	}
 	return 1.0 / sum_inverses;
@@ -21,7 +23,7 @@ static float series(int count, const float *array)
 {
 	double sum = 0.0;
 	for (int i = 0; i < count; ++i) {
-		if (array[i] < 0.0) return -1.0f;
+		if (array[i] < 0.0) return errorval;
 		sum += array[i];
 	}
 	return sum;
@@ -30,7 +32,7 @@ static float series(int count, const float *array)
 float calc_resistance(int count, char conn, const float *array)
 {
 	if (!array) {
-		return -1.0f;
+		return errorval;
 	}
 	float equivalent = 0.0f;
 
@@ -41,7 +43,7 @@ float calc_resistance(int count, char conn, const float *array)
 	} else if (conn == 's' || conn == 'S') {
 		equivalent = series(count, array);
 	} else {
-		return -1.0f;
+		return errorval;
 	}
 	return equivalent;
 }
