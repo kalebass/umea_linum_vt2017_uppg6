@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-I. -std=c99
+CFLAGS=-I. -std=c99 -Wall -Wextra -Wpedantic
 LIBFLAG = -L$(LIB) -Wl,-rpath,$(INSTALL_PATH)/$(LIB) -lresistance -lcomponent -lpower
 OBJS=main.o
 SOURCES=libresistance.c libcomponent.c libpower.c
