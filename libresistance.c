@@ -36,10 +36,10 @@ float calc_resistance(int count, char conn, const float *array)
 	}
 	float equivalent = 0.0f;
 
-	// Parallel resistances
+	// Parallel connection 
 	if (conn == 'p' || conn == 'P') {
 		equivalent = parallel(count, array);
-	// Resistances in series
+	// Series connection
 	} else if (conn == 's' || conn == 'S') {
 		equivalent = series(count, array);
 	} else {
