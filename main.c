@@ -2,6 +2,7 @@
  * This will be the main program and is expected to yield the output below.
  */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,6 +10,54 @@
 #include "libcomponent.h"
 #include "libpower.h"
 
+static char read_conn_type(void);
+static int read_positive_int(void);
+static void test_case_e12(float);
+
+int main(void) {
+
+    printf("Ange spänningskälla i V: ");
+    float voltage = (float)read_positive_int();
+
+    char conn = read_conn_type();
+
+    printf("Antal komponenter: ");
+    int nbr_components = read_positive_int();
+
+    float *resistors = malloc(sizeof(float) * nbr_components);
+
+    for (int i = 0; i < nbr_components; i++) {
+        printf("Komponent %d ohm: ", i+1);
+        resistors[i] = (float)read_positive_int();
+    }
+
+    float equiv = calc_resistance(nbr_components, conn, resistors);
+    printf("Ersättningsresistans:\n%.1f ohm\n", equiv);
+
+    float power_r = calc_power_r(voltage, equiv);
+    printf("Effekt:\n%3.2f W\n", power_r);
+
+    float *e_res = malloc(sizeof(float) * 3);
+    int count = e_resistance(equiv, e_res);
+    printf("Ersättningsresistanser i E12-serien kopplade i serie:\n");
+    for (int i = 0; i < count; i++) {
+        printf("%g\n", e_res[i]);
+    }
+    free(e_res);
+
+    /* Some test cases for E12 replacements */
+    /*
+    printf("\n");
+    test_case_e12(1398.0f);
+    test_case_e12(15.0f);
+    test_case_e12(11234.0f);
+    test_case_e12(9.0f);
+    test_case_e12(24512.0f);
+    test_case_e12(14.0f);
+    */
+
+    return 0;
+}
 /*
  * Extra test cases for E12 resistances.
  */
@@ -45,62 +94,15 @@ static int read_positive_int(void) {
 /*
  * Read charcters from stdin. Accept S or P only.
  */
-static int read_char(void) {
+static char read_conn_type(void) {
     char choice;
 
     do {
         printf("Ange koppling[S | P]: ");
         scanf(" %c", &choice);
         fflush(stdin);
+        choice = toupper(choice);
     } while (choice != 'S' && choice != 'P');
     return choice;
 }
 
-int main(void) {
-
-    printf("Ange spänningskälla i V: ");
-    float voltage = (float)read_positive_int();
-
-    char conn = read_char();
-
-    printf("Antal komponenter: ");
-    int nbr_components = read_positive_int();
-
-    float *resistors = malloc(sizeof(float) * nbr_components);
-
-    for (int i = 0; i < nbr_components; i++) {
-        printf("Komponent %d ohm: ", i+1);
-        resistors[i] = (float)read_positive_int();
-    }
-
-    float equiv = calc_resistance(nbr_components, conn, resistors);
-    printf("Ersättniingsresistans: %g ohm\n", equiv);
-
-    float power_r = calc_power_r(voltage, equiv);
-    // float current = voltage / equiv;
-    // float power_i = calc_power_i(voltage, current);
-    printf("Effekt: %3.2f W\n", power_r);
-
-    float *e_res = malloc(sizeof(float) * 3);
-    int count = e_resistance(equiv, e_res);
-    printf("Ersättningsresistanser i E12-serien kopplade i serie: ");
-    printf("%g", e_res[0]);
-    for (int i = 1; i < count; i++) {
-        printf(", %g", e_res[i]);
-    }
-    printf("\n");
-    free(e_res);
-
-    /* Some test cases for E12 replacements */
-    /*
-    printf("\n");
-    test_case_e12(1398.0f);
-    test_case_e12(15.0f);
-    test_case_e12(11234.0f);
-    test_case_e12(9.0f);
-    test_case_e12(24512.0f);
-    test_case_e12(14.0f);
-    */
-
-    return 0;
-}
