@@ -9,52 +9,9 @@
 #include "libcomponent.h"
 #include "libpower.h"
 
-/*
- * Extra test cases for E12 resistances.
- */
-static void test_case_e12(float res) {
-    float *arr = malloc(sizeof(float) * 3);
-    printf("Target resistance: %3.1f\n", res);
-    printf("count is %d\n", e_resistance(res, arr));
-    printf("\t res 1: %3.1f\n", arr[0]);
-    printf("\t res 2: %3.1f\n", arr[1]);
-    printf("\t res 3: %3.1f\n", arr[2]);
-    printf("\t ---------------\n");
-    printf("\t sum:   %3.1f\n\n", arr[0]+arr[1]+arr[2]);
-    free(arr);
-}
-
-/*
- * Read integer from stdin. Not fool-proof since e.g.
- * 123abc would be accepted as 123.
- */
-static int read_positive_int(void) {
-    int res = 0;
-    int output = -1;
-
-    while (res <= 0 || output <= 0) {
-        res = scanf("%d", &output);
-        if (res == 0 || output <= 0) {
-            while (fgetc(stdin) != '\n') ;
-            printf("Ange ett positivt heltal: ");
-        }
-    }
-    return output;
-}
-
-/*
- * Read charcters from stdin. Accept S or P only.
- */
-static int read_char(void) {
-    char choice;
-
-    do {
-        printf("Ange koppling[S | P]: ");
-        scanf(" %c", &choice);
-        fflush(stdin);
-    } while (choice != 'S' && choice != 'P');
-    return choice;
-}
+static int read_char(void);
+static int read_positive_int(void);
+static void test_case_e12(float);
 
 int main(void) {
 
@@ -104,3 +61,50 @@ int main(void) {
 
     return 0;
 }
+/*
+ * Extra test cases for E12 resistances.
+ */
+static void test_case_e12(float res) {
+    float *arr = malloc(sizeof(float) * 3);
+    printf("Target resistance: %3.1f\n", res);
+    printf("count is %d\n", e_resistance(res, arr));
+    printf("\t res 1: %3.1f\n", arr[0]);
+    printf("\t res 2: %3.1f\n", arr[1]);
+    printf("\t res 3: %3.1f\n", arr[2]);
+    printf("\t ---------------\n");
+    printf("\t sum:   %3.1f\n\n", arr[0]+arr[1]+arr[2]);
+    free(arr);
+}
+
+/*
+ * Read integer from stdin. Not fool-proof since e.g.
+ * 123abc would be accepted as 123.
+ */
+static int read_positive_int(void) {
+    int res = 0;
+    int output = -1;
+
+    while (res <= 0 || output <= 0) {
+        res = scanf("%d", &output);
+        if (res == 0 || output <= 0) {
+            while (fgetc(stdin) != '\n') ;
+            printf("Ange ett positivt heltal: ");
+        }
+    }
+    return output;
+}
+
+/*
+ * Read charcters from stdin. Accept S or P only.
+ */
+static int read_char(void) {
+    char choice;
+
+    do {
+        printf("Ange koppling[S | P]: ");
+        scanf(" %c", &choice);
+        fflush(stdin);
+    } while (choice != 'S' && choice != 'P');
+    return choice;
+}
+
