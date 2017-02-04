@@ -1,3 +1,9 @@
+/**
+ * @file libresistance.c
+ * @author Arvid Axelsson
+ * @brief Calculate equivalent resistance of several parallel or serial
+ *        connected resistances.
+ */
 #include "libresistance.h"
 
 float calc_resistance(int count, char conn, const float *array)
