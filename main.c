@@ -10,7 +10,7 @@
 #include "libcomponent.h"
 #include "libpower.h"
 
-static int read_conn_type(void);
+static char read_conn_type(void);
 static int read_positive_int(void);
 static void test_case_e12(float);
 
@@ -94,7 +94,7 @@ static int read_positive_int(void) {
 /*
  * Read charcters from stdin. Accept S or P only.
  */
-static int read_conn_type(void) {
+static char read_conn_type(void) {
     char choice;
 
     do {
