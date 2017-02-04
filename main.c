@@ -2,6 +2,7 @@
  * This will be the main program and is expected to yield the output below.
  */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -104,6 +105,7 @@ static int read_char(void) {
         printf("Ange koppling[S | P]: ");
         scanf(" %c", &choice);
         fflush(stdin);
+        choice = toupper(choice);
     } while (choice != 'S' && choice != 'P');
     return choice;
 }
