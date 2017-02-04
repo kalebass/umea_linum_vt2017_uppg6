@@ -10,7 +10,7 @@
 #include "libcomponent.h"
 #include "libpower.h"
 
-static int read_char(void);
+static int read_conn_type(void);
 static int read_positive_int(void);
 static void test_case_e12(float);
 
@@ -19,7 +19,7 @@ int main(void) {
     printf("Ange spänningskälla i V: ");
     float voltage = (float)read_positive_int();
 
-    char conn = read_char();
+    char conn = read_conn_type();
 
     printf("Antal komponenter: ");
     int nbr_components = read_positive_int();
@@ -94,7 +94,7 @@ static int read_positive_int(void) {
 /*
  * Read charcters from stdin. Accept S or P only.
  */
-static int read_char(void) {
+static int read_conn_type(void) {
     char choice;
 
     do {
