@@ -7,13 +7,14 @@
 #include "libresistance.h"
 
 static const float errorval = -1.0f;
+static const float eps = 1e-5f;
 
 static float parallel(int count, const float *array)
 {
 	double sum_inverses = 0.0;
 	for (int i = 0; i < count; ++i) {
-		if (array[i] == 0.0) return 0.0f;
 		if (array[i] < 0.0) return errorval;
+		if (array[i] < eps) return 0.0f;
 		sum_inverses += 1.0 / array[i];
 	}
 	return 1.0 / sum_inverses;
