@@ -1,5 +1,6 @@
-/*
- * This will be the main program and is expected to yield the output below.
+/**
+ * @file main.c
+ * @brief Program to test all the functionality of the shared libraries.
  */
 
 #include <ctype.h>
@@ -10,10 +11,27 @@
 #include "libcomponent.h"
 #include "libpower.h"
 
+/**
+ * @brief Read if connection is in parallell or series from stdin.
+ * @return S or P depending on user's choice.
+ */
 static char read_conn_type(void);
-static int read_positive_int(void);
-static void test_case_e12(float);
 
+/**
+ * @brief Read a positive integer from stdin.
+ * @return A valid integer.
+ */
+static int read_positive_int(void);
+
+/**
+ * @brief Extra test cases for E12 resistance.
+ * @param orig_resistance The resistance to replace with E12's.
+ */
+static void test_case_e12(float orig_resistance);
+
+/*
+ * Main program.
+ */
 int main(void) {
 
     printf("Ange spänningskälla i V: ");
@@ -58,6 +76,7 @@ int main(void) {
 
     return 0;
 }
+
 /*
  * Extra test cases for E12 resistances.
  */
